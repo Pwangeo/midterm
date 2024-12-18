@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Composing with Flowers</title>
+    <link rel="stylesheet" href="https://use.typekit.net/llh5cpd.css">
+    <style>
+        
+           body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column; 
+        justify-content: flex-start; 
+        align-items: center; 
+        font-family: "altesse-std-24pt", sans-serif;
+        padding-top: 20px; 
+        position: relative; 
+        overflow-x: auto; 
+        overflow-y: hidden; 
+        color: black;
+   
+    }
+
+        h1 {
+            position: fixed; 
+            top: 20px; /* 상단 여백 조정 */
+            left: 50%; /* 왼쪽에서 50% 위치 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            text-align: center; 
+            width: auto; 
+        }
+
+        .key-boxes {
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            position: fixed; /* 고정 위치 설정 */
+            top: 100px; /* h1 아래에 위치하도록 설정 */
+            left: 50%; /* 왼쪽에서 50% 위치 */
+            transform: translateX(-50%); /* 중앙 정렬 */
+            overflow-x: auto; 
+            white-space: nowrap; 
+        }
+
+        .key-row.top {
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+            margin-left: -60px; 
+        }
+
+        .key-row.bottom {
+            display: flex; 
+            justify-content: center; 
+            gap: 10px; 
+        }
+
+        .key-box {
+            width: 50px; 
+            height: 50px; 
+            background-color: rgba(255, 255, 255, 0.2); 
+            display: flex; 
+            justify-content: center;
+            align-items: center; 
+            border-radius: 5px; 
+            font-size: 24px; 
+            cursor: pointer; 
+        }
+
+        .key-box.transparent {
+            background-color: rgba(255, 255, 255, 0.7); 
+            
+        }
+
+        .key-box.ry-spacing {
+            margin-right: 60px; 
+        }
+
+        .dynamic-image {
+            position: absolute; 
+            width: 20px; 
+            height: auto; 
+            opacity: 0;
+            animation: grow 0.5s forwards; 
+        }
+
+        @keyframes grow {
+            0% {
+                width: 20px; 
+                opacity: 0; 
+            }
+            100% {
+                width: 50px; 
+                opacity: 1; 
+            }
+        }
+
+        
+        .mode-button {
+            position: fixed; 
+            top: 25px; /* 상단 여백 조정 */
+            right: 20px; 
+            padding: 10px 20px;
+            font-size: 35px;
+            font-family: "altesse-std-24pt", sans-serif;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease; 
+            
+        
+        }
+        .mode-button:hover {
+            transform: scale(1.3); 
+        }
+
+        .main-button {
+            position: fixed; /* 화면 고정 위치 설정 */
+            top: 25px; /* 상단 여백 조정 */
+            left: 20px; /* 오른쪽 여백 조정 */
+            padding: 10px 20px;
+            font-size: 35px;
+            font-family: "altesse-std-24pt", sans-serif;
+           
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease; 
+            
+        }
+        .main-button:hover {
+            transform: scale(1.3); 
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Press the keyboard</h1>
+    <div class="key-boxes">
+        <div class="key-row top">
+            <div class="key-box transparent">E</div>
+            <div class="key-box transparent ry-spacing">R</div>
+            <div class="key-box transparent">Y</div>
+            <div class="key-box transparent">U</div> 
+            <div class="key-box transparent">I</div>
+        </div>
+        <div class="key-row bottom">
+            <div class="key-box">S</div>
+            <div class="key-box">D</div>
+            <div class="key-box">F</div>
+            <div class="key-box">G</div>
+            <div class="key-box">H</div>
+            <div class="key-box">J</div>
+            <div class="key-box">K</div>
+            <div class="key-box">L</div>
+        </div>
+    </div>
+    <button class="mode-button" id="modeButton">Mode</button>
+     <button class="main-button" id="mainButton">Main</button>
+    <script>
+        let leftPosition = 100;
+
+document.addEventListener('keydown', (event) => {
+    let keyContainer = document.createElement('div');
+    keyContainer.style.position = 'absolute';
+    keyContainer.style.left = leftPosition + 'px';
+
+    let newImage = document.createElement('img');
+    newImage.classList.add('dynamic-image'); 
+    newImage.style.display = 'block'; // 이미지 표시
+
+    let audioSrc; 
+
+    switch (event.key.toLowerCase()) {
+        case 's':
+            newImage.src = 'do3.png'; 
+            newImage.style.top = '700px'; 
+            audioSrc = 'C4.mp3';
+            break;
+        case 'e':
+            newImage.src = 'do3.png'; 
+            newImage.style.top = '675px'; 
+            audioSrc = 'CS4.mp3';
+            addSharp(keyContainer, newImage); // sharp.png 추가
+            break;
+        case 'd':
+            newImage.src = 're2.png'; 
+            newImage.style.top = '650px'; 
+            audioSrc = 'D4.mp3';
+            break;
+        case 'r':
+            newImage.src = 're2.png';
+            newImage.style.top = '625px'; 
+            audioSrc = 'DS4.mp3';
+            addSharp(keyContainer, newImage); // sharp.png 추가
+            break;
+        case 'f':
+            newImage.src = 'mi2.png';
+            newImage.style.top = '600px'; 
+            audioSrc = 'E4.mp3';
+            break;
+        case 'g':
+            newImage.src = 'fa2.png'; 
+            newImage.style.top = '550px'; 
+            audioSrc = 'F4.mp3';
+            break;
+        case 'y':
+            newImage.src = 'fa2.png'; 
+            newImage.style.top = '525px'; 
+            audioSrc = 'FS4.mp3';
+            addSharp(keyContainer, newImage); // sharp.png 추가
+            break;
+        case 'h':
+            newImage.src = 'sol2.png'; 
+            newImage.style.top = '500px'; 
+            audioSrc = 'G4.mp3';
+            break;
+        case 'u':
+            newImage.src = 'sol2.png'; 
+            newImage.style.top = '475px'; 
+            audioSrc = 'GS4.mp3';
+            addSharp(keyContainer, newImage); // sharp.png 추가
+            break;
+        case 'j':
+            newImage.src = 'la2.png'; 
+            newImage.style.top = '450px'; 
+            audioSrc = 'A4.mp3';
+            break;
+        case 'i':
+            newImage.src = 'la2.png'; 
+            newImage.style.top = '425px'; 
+            audioSrc = 'AS4.mp3';
+            addSharp(keyContainer, newImage); // sharp.png 추가
+            break;
+        case 'k':
+            newImage.src = 'ti2.png'; 
+            newImage.style.top = '400px'; 
+            audioSrc = 'B4.mp3';
+            break;
+        case 'l':
+            newImage.src = 'do4.png'; 
+            newImage.style.top = '350px'; 
+            audioSrc = 'C5.mp3';
+            break;
+        default:
+            return; 
+    }
+
+    // newImage를 컨테이너에 추가
+    keyContainer.appendChild(newImage); 
+    document.body.appendChild(keyContainer); 
+
+    const audio = new Audio(audioSrc);
+    audio.play();
+
+    leftPosition += 60; 
+
+    window.scrollBy({
+        left: 200,
+        behavior: 'smooth'
+    });
+});
+function getRandomColor() {
+    let r, g, b;
+
+    // 밝기가 너무 밝지 않도록 RGB 값 조정
+    do {
+        r = Math.floor(Math.random() * 256);
+        g = Math.floor(Math.random() * 256);
+        b = Math.floor(Math.random() * 256);
+    } while (r > 200 && g > 200 && b > 200); // 너무 밝은 색상은 제외
+
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+
+function changeBackgroundColor() {
+    document.body.style.backgroundColor = getRandomColor();
+}
+
+// 페이지 로드 시 배경 색상 변경
+window.onload = changeBackgroundColor;
+
+
+
+function addSharp(container, newImage) {
+    let sharpImage = document.createElement('img');
+    sharpImage.src = 'sharp.png'; // sharp.png 이미지 경로
+    sharpImage.style.width = '30px'; 
+    sharpImage.style.height = 'auto'; 
+    sharpImage.style.position = 'absolute'; 
+    sharpImage.style.left = (35) + 'px'; // newImage의 오른쪽에 위치
+    sharpImage.style.top = newImage.style.top; // newImage와 같은 높이
+    sharpImage.style.zIndex = '1'; // sharp.png를 위로 올림
+
+    // 랜덤 색상 생성
+    const randomColor = getRandomColor();
+    sharpImage.style.filter = `hue-rotate(${Math.random() * 360}deg)`;
+
+    // sharp.png와 newImage가 동시에 나타나도록 애니메이션 추가
+    sharpImage.style.opacity = '0';
+    sharpImage.style.transition = 'opacity 0.5s'; // 부드러운 전환 효과
+    setTimeout(() => {
+        sharpImage.style.opacity = '1'; // 나타나게 설정
+    }, 0);
+
+    container.appendChild(sharpImage); 
+}
+
+
+
+ document.getElementById('modeButton').addEventListener('click', function() {
+            // 원하는 HTML 파일로 이동
+            window.location.href = 'page1.html'; // 여기에 원하는 HTML 파일 이름 입력
+        });
+document.getElementById('mainButton').addEventListener('click', function() {
+            // 원하는 HTML 파일로 이동
+            window.location.href = 'index.html'; // 여기에 원하는 HTML 파일 이름 입력
+        });
+    </script>
+</body>
+</html>

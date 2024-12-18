@@ -124,9 +124,9 @@ function addSharp(container, newImage) {
 
  document.getElementById('modeButton').addEventListener('click', function() {
 
-            window.location.href = '../page2/page2.html'; 
+            window.location.href = 'page2.html'; 
         });
 document.getElementById('mainButton').addEventListener('click', function() {
             
-            window.location.href = '../page0/index.html'; 
+            window.location.href = 'index.html'; 
         });
